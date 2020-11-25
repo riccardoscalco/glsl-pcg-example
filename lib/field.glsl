@@ -42,8 +42,8 @@ uvec3 pcg3d(uvec3 v) {
 
 uvec3 hash(vec2 s) {
 	uvec4 u = uvec4(s, uint(s.x) ^ uint(s.y), uint(s.x) + uint(s.y));
-	return uvec3(pcg(pcg(u.x) + u.y));
-	//return uvec3(pcg2d(u.xy), 0u);
+	//return uvec3(pcg(pcg(u.x) + u.y));
+	return uvec3(pcg2d(u.xy), 0u);
 	//return pcg3d(u.xyz);
 }
 
