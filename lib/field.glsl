@@ -40,8 +40,8 @@ uvec3 hash(vec2 s) {
 }
 
 vec4 field (vec2 p, float W, float H) {
-	// float rnd = random(p.xy);
-	// return vec4(vec3(rnd), 1.);
+	float rnd = random(p.xy);
+	return vec4(vec3(rnd), 1.);
 
 	// uvec3 h = hash(p * float(uint(0xffffffff)));
 	uvec3 h = hash(p * 1000.);
