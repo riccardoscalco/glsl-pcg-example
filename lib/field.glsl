@@ -9,52 +9,43 @@ uint pcg(uint v) {
 	return (word >> uint(22)) ^ word;
 }
 
-uvec2 pcg2d(uvec2 v) {
+uvec2 pcg(uvec2 v) {
 	v = v * uint(1664525) + uint(1013904223);
-
 	v.x += v.y * uint(1664525);
 	v.y += v.x * uint(1664525);
-
-	v = v ^ (v>>uint(16));
-
+	v = v ^ (v >> uint(16));
 	v.x += v.y * uint(1664525);
 	v.y += v.x * uint(1664525);
-
-	v = v ^ (v>>uint(16));
-
+	v = v ^ (v >> uint(16));
 	return v;
 }
 
-uvec3 pcg3d(uvec3 v) {
-
+uvec3 pcg(uvec3 v) {
 	v = v * uint(1664525) + uint(1013904223);
-
-	v.x += v.y*v.z;
-	v.y += v.z*v.x;
-	v.z += v.x*v.y;
-
+	v.x += v.y * v.z;
+	v.y += v.z * v.x;
+	v.z += v.x * v.y;
 	v ^= v >> uint(16);
-
-	v.x += v.y*v.z;
-	v.y += v.z*v.x;
-	v.z += v.x*v.y;
-
+	v.x += v.y * v.z;
+	v.y += v.z * v.x;
+	v.z += v.x * v.y;
 	return v;
 }
 
 uvec3 hash(vec2 s) {
 	uvec4 u = uvec4(s, uint(s.x) ^ uint(s.y), uint(s.x) + uint(s.y));
-	// return uvec3(pcg(pcg(u.x) + u.y));
-	// return uvec3(pcg2d(u.xy), 0u);
-	return pcg3d(u.xyz);
+	return uvec3(pcg(pcg(u.x) + u.y));
+	//return uvec3(pcg(u.xy), uint(0));
+	//return pcg(u.xyz);
 }
 
 vec4 field (vec2 p, float W, float H) {
+	// float rnd = random(p.xy);
+	// return vec4(vec3(rnd), 1.);
+
 	// uvec3 h = hash(p * float(uint(0xffffffff)));
-	float rnd = random(p.xy);
-	return vec4(vec3(rnd), 1.);
-	// uvec3 h = hash(p * 1000.);
-	// return vec4(vec3(h) * (1.0/float(uint(0xffffffff))), 1.0);
+	uvec3 h = hash(p * 1000.);
+	return vec4(vec3(h) * (1.0/float(uint(0xffffffff))), 1.0);
 }
 
 #pragma glslify: export(field)
