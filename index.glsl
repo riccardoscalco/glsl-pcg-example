@@ -41,7 +41,7 @@ void main() {
 	}
 
 	// Apply field.
-	vec4 f = field(p, W, H);
+	vec4 f = field(p, W, H, seed);
 
 	// Add padding.
 	color = addPadding(f, p, W, H);
