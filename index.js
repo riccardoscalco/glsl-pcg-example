@@ -6,21 +6,15 @@ const glsl = require('glslify');
 
 // Parameters
 const seed = +random.getRandomSeed();
-const padding = 100; // In settings.units.
-const numberOfTilesOnWidth = 0; // Set to 0 to avoid space tiling.
 
 const settings = {
-	dimensions: [1080, 1080],
+	dimensions: [600, 600],
 	units: "px",
 	pixelsPerInch: 300,
-	context: 'webgl2',
-	animate: false,
-	name: 'commit',
-	suffix: `seed-${seed}`,
-	prefix: `${Date.now()}`
+	context: 'webgl2'
 };
 
-const frag = glsl(path.resolve(__dirname, 'index.glsl'));
+const frag = glsl(path.resolve(__dirname, 'frag.glsl'));
 const vert = glsl(path.resolve(__dirname, 'vert.glsl'));
 
 const sketch = ({gl}) => {
@@ -29,10 +23,7 @@ const sketch = ({gl}) => {
 		vert,
 		frag,
 		uniforms: {
-			aspect: ({width, height}) => width / height,
 			seed: () => seed,
-			paddingRatio: ({width}) => padding / width,
-			numberOfTilesOnWidth: () => numberOfTilesOnWidth
 		}
 	});
 };
